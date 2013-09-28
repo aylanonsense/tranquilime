@@ -49,7 +49,7 @@ function addRoutes(app) {
 function getBunchOStress(numNewStressorsToGet, stressorsToUpdate, callback) {
 	var additions = null;
 	var updates = null;
-	Stressor.find().where('_id').in(stressorsToUpdate).sort('-dateCreated').exec(function(err, stressors) {
+	Stressor.find().where('_id').in(stressorsToUpdate).where('deleted').ne(true).sort('-dateCreated').exec(function(err, stressors) {
 		wrapStressors(stressors, function(stressors) {
 			updates = stressors;
 			if(additions !== null) {
@@ -57,7 +57,7 @@ function getBunchOStress(numNewStressorsToGet, stressorsToUpdate, callback) {
 			}
 		});
 	});
-	Stressor.find().where('_id').nin(stressorsToUpdate).sort('-dateCreated').limit(2 * numNewStressorsToGet).exec(function(err, stressors) {
+	Stressor.find().where('_id').nin(stressorsToUpdate).where('deleted').ne(true).sort('-dateCreated').limit(2 * numNewStressorsToGet).exec(function(err, stressors) {
 		for(var i = 0; i < 10 && stressors.length > numNewStressorsToGet; i++) {
 			stressors.splice(Math.floor(Math.random() * stressors.length), 1);
 		}
@@ -70,7 +70,7 @@ function getBunchOStress(numNewStressorsToGet, stressorsToUpdate, callback) {
 	});
 }
 function getAllStress(callback) {
-	Stressor.find().sort('-dateCreated').exec(function(err, stressors) {
+	Stressor.find().where('deleted').ne(true).sort('-dateCreated').exec(function(err, stressors) {
 		if(err) {
 			callback([]);
 		}
@@ -93,12 +93,13 @@ function postStress(text, callback) {
 	});
 }
 function deleteStress(id, callback) {
-	Stressor.findById(id, function(err, stressor) {
+	Stressor.findById(id).where('deleted').ne(true).exec(function(err, stressor) {
 		if(err) {
 			callback(false);
 		}
 		else {
-			stressor.remove(function(err) {
+			stressor.deleted = true;
+			stressor.save(function(err) {
 				if(err) {
 					callback(false);
 				}
@@ -110,7 +111,7 @@ function deleteStress(id, callback) {
 	});
 }
 function getAllComfort(callback) {
-	Comfort.find().sort('-dateCreated').exec(function(err, comforts) {
+	Comfort.find().where('deleted').ne(true).sort('-dateCreated').exec(function(err, comforts) {
 		if(err) {
 			callback([]);
 		}
@@ -120,7 +121,7 @@ function getAllComfort(callback) {
 	});
 }
 function postComfort(stressorId, text, callback) {
-	Stressor.findById(id, function(err, stressor) {
+	Stressor.findById(id).where('deleted').ne(true).exec(function(err, stressor) {
 		if(err || !stressor) {
 			callback(false, null);
 		}
@@ -142,12 +143,13 @@ function postComfort(stressorId, text, callback) {
 	});
 }
 function deleteComfort(id, callback) {
-	Comfort.findById(id, function(err, comfort) {
+	Comfort.findById(id).where('deleted').ne(true).exec(function(err, comfort) {
 		if(err) {
 			callback(false);
 		}
 		else {
-			comfort.remove(function(err) {
+			comfort.deleted = true;
+			comfort.save(function(err) {
 				if(err) {
 					callback(false);
 				}
@@ -196,7 +198,7 @@ function wrapComforts(comforts, callback) {
 	callback(comfortArr);
 }
 function getComfortsForStressors(stressors, callback) {
-	Comfort.find().where('stressorId').in(stressors).sort('-dateCreated').exec(function(err, comforts) {
+	Comfort.find().where('stressorId').in(stressors).where('deleted').ne(true).sort('-dateCreated').exec(function(err, comforts) {
 		callback(comforts);
 	});
 }
