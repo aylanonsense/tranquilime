@@ -1,11 +1,17 @@
 $(document).ready(function() {
-	getBunchOStress(3325834, [3, 4, 5, 6, 7], function(additions, updates) {
+	getBunchOStress(4, [3, 4, 5, 6, 7], function(additions, updates) {
 		console.log('GET bunchostress =>', additions, updates);
 	});
-	postStressor('I am stressed', function(successful, id) {
-		console.log('POST stressor =>', successful, id);
+	getAllStress(function(stress) {
+		console.log('GET stress =>', stress);
 	});
-	postComfort('Stay in there!', 4, function(successful, id) {
+	postStress('I am stressed', function(successful, id) {
+		console.log('POST stress =>', successful, id);
+	});
+	getAllComfort(function(comfort) {
+		console.log('GET comfort =>', comfort);
+	});
+	postComfort('Stay in there!', '52472bca1ae8647a27000001', function(successful, id) {
 		console.log('POST comfort =>', successful, id);
 	});
 });
