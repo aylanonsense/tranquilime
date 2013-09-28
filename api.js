@@ -58,7 +58,10 @@ function getBunchOStress(numNewStressorsToGet, stressorsToUpdate, callback) {
 			}
 		});
 	});
-	Stressor.find().where('_id').nin(stressorsToUpdate).sort('-dateCreated').limit(numNewStressorsToGet).exec(function(err, stressors) {
+	Stressor.find().where('_id').nin(stressorsToUpdate).sort('-dateCreated').limit(2 * numNewStressorsToGet).exec(function(err, stressors) {
+		for(var i = 0; i < 10 && stressors.length > numNewStressorsToGet; i++) {
+			stressors.splice(Math.floor(Math.random() * stressors.length), 1);
+		}
 		wrapStressors(stressors, function(stressors) {
 			additions = stressors;
 			if(updates !== null) {
