@@ -1,16 +1,3 @@
-/*
-	GET bunchostress?amt=0&stressors=1,2
-		{
-			updates: [ { id: 1, comfort: [ { id: 1, text: "grr" } ] } ],
-			additions: [ { id: 2, text: "bloop", comfort: [] }
-		}
-
-	POST stressor  BODY: { text: text }
-		{ id: 1, successful: true }
-
-	POST comfort  BODY: { text: text }
-		{ id: 1, successful: true }
-*/
 var models = require('./models');
 var Stressor = models.Stressor;
 var Comfort = models.Comfort;

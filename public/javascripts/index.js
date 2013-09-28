@@ -1,17 +1,13 @@
 $(document).ready(function() {
-	getBunchOStress(0, [ '52472b4fdfce730227000001' ], function(additions, updates) {
-		console.log('GET bunchostress =>', additions, updates);
+	getAllStress(function(stress) {
+		stress.forEach(function(stressor) {
+			$('<p></p>').text(stressor.text).appendTo('body');
+			if(stressor.comfort.length > 0) {
+				var ul = $('<ul></ul>').appendTo('body');
+				stressor.comfort.forEach(function(comfort) {
+					$('<li></li>').text(comfort.text).appendTo(ul);
+				});
+			}
+		});
 	});
-	/*getAllStress(function(stress) {
-		console.log('GET stress =>', stress);
-	});
-	postStress('I am SUPER stressed', function(successful, id) {
-		console.log('POST stress =>', successful, id);
-	});
-	getAllComfort(function(comfort) {
-		console.log('GET comfort =>', comfort);
-	});
-	postComfort('Stay in there BEAUTIFUL!', '52472b4fdfce730227000001', function(successful, id) {
-		console.log('POST comfort =>', successful, id);
-	});*/
 });
