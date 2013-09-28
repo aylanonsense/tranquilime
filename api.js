@@ -47,28 +47,33 @@ function addRoutes(app) {
 		});
 	});
 }
-function getBunchOStress(amt, existingStressors, callback) {
-	var additions = [];
-	var updates = [];
-	callback(additions, updates);
+function getBunchOStress(numNewStressorsToGet, stressorsToUpdate, callback) {
+	var additions = null;
+	var updates = null;
+	Stressor.find().where('_id').in(stressorsToUpdate).sort('-dateCreated').exec(function(err, stressors) {
+		wrapStressors(stressors, function(stressors) {
+			updates = stressors;
+			if(additions !== null) {
+				callback(additions, updates);
+			}
+		});
+	});
+	Stressor.find().where('_id').nin(stressorsToUpdate).sort('-dateCreated').limit(numNewStressorsToGet).exec(function(err, stressors) {
+		wrapStressors(stressors, function(stressors) {
+			additions = stressors;
+			if(updates !== null) {
+				callback(additions, updates);
+			}
+		});
+	});
 }
 function getAllStress(callback) {
-	Stressor.find(function(err, stressors) {
+	Stressor.find().sort('-dateCreated').exec(function(err, stressors) {
 		if(err) {
 			callback([]);
 		}
 		else {
-			var stressArr = [];
-			stressors.sort(function(a, b) { //TODO sort using mongoose instead
-				return a.dateCreated.getTime() - b.dateCreated.getTime();
-			});
-			stressors.forEach(function(stressor) {
-				stressArr.push({
-					id: stressor.id,
-					text: stressor.text
-				});
-			});
-			callback(stressArr);
+			wrapStressors(stressors, callback);
 		}
 	});
 }
@@ -86,23 +91,12 @@ function postStress(text, callback) {
 	});
 }
 function getAllComfort(callback) {
-	Comfort.find(function(err, comforts) {
+	Comfort.find().sort('-dateCreated').exec(function(err, comforts) {
 		if(err) {
 			callback([]);
 		}
 		else {
-			var comfortArr = [];
-			comforts.sort(function(a, b) { //TODO sort using mongoose instead
-				return a.dateCreated.getTime() - b.dateCreated.getTime();
-			});
-			comforts.forEach(function(comfort) {
-				comfortArr.push({
-					id: comfort.id,
-					stressorId: comfort.stressorId,
-					text: comfort.text
-				});
-			});
-			callback(comfortArr);
+			wrapComforts(comforts, callback);
 		}
 	});
 }
@@ -127,6 +121,28 @@ function postComfort(stressorId, text, callback) {
 			});
 		}
 	});
+}
+function wrapStressors(stressors, callback) {
+	var stressArr = [];
+	stressors.forEach(function(stressor) {
+		stressArr.push({
+			id: stressor.id,
+			text: stressor.text
+		});
+	});
+	callback(stressArr);
+}
+function wrapComforts(comforts, callback) {
+	var comfortArr = [];
+	comforts.forEach(function(comfort) {
+		comfortArr.push({
+			id: comfort.id,
+			stressorId: comfort.stressorId,
+			text: comfort.text
+		});
+	});
+	//TODO add linked comforts
+	callback(comfortArr);
 }
 
 exports.addRoutes = addRoutes;
