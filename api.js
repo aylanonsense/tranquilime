@@ -17,17 +17,22 @@ var Comfort = models.Comfort;
 
 function addRoutes(app) {
 	app.get('/api/bunchostress', function(req, res) {
-		getBunchOStress(req.params.amt, req.params.stressors, function(additions, updates) {
+		var amt = req.query.amt;
+		var stressors = req.query.stressors.split(',');
+		getBunchOStress(amt, stressors, function(additions, updates) {
 			res.send({ additions: additions, updates: updates });
 		});
 	});
-	app.get('/api/stressor', function(req, res) { //TODO change to use POST
-		postStressor(req.params.text, function(successful, id) { //TODO change to use BODY
+	app.post('/api/stressor', function(req, res) {
+		var text = req.body.text;
+		postStressor(text, function(successful, id) {
 			res.send({ successful: successful, id: id });
 		});
 	});
-	app.get('/api/comfort', function(req, res) { //TODO change to use POST
-		postComfort(req.params.stressor, req.params.text, function(successful, id) { //TODO change to use BODY
+	app.post('/api/comfort', function(req, res) {
+		var stressorId = req.body.stressor;
+		var text = req.body.text;
+		postComfort(stressorId, text, function(successful, id) {
 			res.send({ successful: successful, id: id });
 		});
 	});
@@ -36,17 +41,17 @@ function getBunchOStress(amt, existingStressors, callback) {
 	var additions = [];
 	var updates = [];
 	callback(additions, updates);
-};
+}
 function postStressor(text, callback) {
 	var successful = true;
 	var id = 1;
-	callback(successful, id)
-};
-function postComfort(text, callback) {
+	callback(successful, id);
+}
+function postComfort(stressorId, text, callback) {
 	var successful = true;
 	var id = 1;
 	callback(successful, id);
-};
+}
 
 exports.addRoutes = addRoutes;
 exports.getBunchOStress = getBunchOStress;
