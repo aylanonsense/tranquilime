@@ -126,14 +126,30 @@ function postComfort(stressorId, text, callback) {
 	});
 }
 function wrapStressors(stressors, callback) {
+	var stressorIds = [];
 	var stressArr = [];
 	stressors.forEach(function(stressor) {
+		stressorIds.push(stressor.id);
 		stressArr.push({
 			id: stressor.id,
-			text: stressor.text
+			text: stressor.text,
+			comfort: []
 		});
 	});
-	callback(stressArr);
+	getComfortsForStressors(stressorIds, function(comforts) {
+		var i, j;
+		for(i = 0; i < stressArr.length; i++) {
+			for(j = 0; j < comforts.length; j++) {
+				if('' + stressArr[i].id ===  '' + comforts[j].stressorId) {
+					stressArr[i].comfort.push({
+						id: comforts[j].id,
+						text: comforts[j].text
+					});
+				}
+			}
+		}
+		callback(stressArr);
+	});
 }
 function wrapComforts(comforts, callback) {
 	var comfortArr = [];
@@ -144,8 +160,12 @@ function wrapComforts(comforts, callback) {
 			text: comfort.text
 		});
 	});
-	//TODO add linked comforts
 	callback(comfortArr);
+}
+function getComfortsForStressors(stressors, callback) {
+	Comfort.find().where('stressorId').in(stressors).sort('-dateCreated').exec(function(err, comforts) {
+		callback(comforts);
+	});
 }
 
 exports.addRoutes = addRoutes;
