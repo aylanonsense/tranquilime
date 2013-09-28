@@ -93,13 +93,12 @@ function postStress(text, callback) {
 	});
 }
 function deleteStress(id, callback) {
-	Stressor.findById(id).where('deleted').ne(true).exec(function(err, stressor) {
+	Stressor.findByIdAndUpdate(id, { deleted: true }, function(err) {
 		if(err) {
 			callback(false);
 		}
 		else {
-			stressor.deleted = true;
-			stressor.save(function(err) {
+			Comfort.update({ stressorId: id }, { deleted: true }, function(err) {
 				if(err) {
 					callback(false);
 				}
@@ -143,20 +142,12 @@ function postComfort(stressorId, text, callback) {
 	});
 }
 function deleteComfort(id, callback) {
-	Comfort.findById(id).where('deleted').ne(true).exec(function(err, comfort) {
+	Comfort.findByIdAndUpdate(id, { deleted: true }, function(err) {
 		if(err) {
 			callback(false);
 		}
 		else {
-			comfort.deleted = true;
-			comfort.save(function(err) {
-				if(err) {
-					callback(false);
-				}
-				else {
-					callback(true);
-				}
-			});
+			callback(true);
 		}
 	});
 }
