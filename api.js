@@ -21,6 +21,12 @@ function addRoutes(app) {
 			res.send({ successful: successful, id: id });
 		});
 	});
+	app.delete('/api/stress/:id', function(req, res) {
+		var id = req.params.id;
+		deleteStress(id, function(successful) {
+			res.send({ successful: successful });
+		});
+	});
 	app.get('/api/comfort', function(req, res) {
 		getAllComfort(function(comfort) {
 			res.send({ comfort: comfort });
@@ -31,6 +37,12 @@ function addRoutes(app) {
 		var text = req.body.text;
 		postComfort(stressorId, text, function(successful, id) {
 			res.send({ successful: successful, id: id });
+		});
+	});
+	app.delete('/api/comfort/:id', function(req, res) {
+		var id = req.params.id;
+		deleteComfort(id, function(successful) {
+			res.send({ successful: successful });
 		});
 	});
 }
@@ -80,6 +92,23 @@ function postStress(text, callback) {
 		}
 	});
 }
+function deleteStress(id, callback) {
+	Stressor.findById(id, function(err, stressor) {
+		if(err) {
+			callback(false);
+		}
+		else {
+			stressor.remove(function(err) {
+				if(err) {
+					callback(false);
+				}
+				else {
+					callback(true);
+				}
+			});
+		}
+	});
+}
 function getAllComfort(callback) {
 	Comfort.find().sort('-dateCreated').exec(function(err, comforts) {
 		if(err) {
@@ -91,7 +120,7 @@ function getAllComfort(callback) {
 	});
 }
 function postComfort(stressorId, text, callback) {
-	Stressor.find({ _id: stressorId }, function(err, stressor) {
+	Stressor.findById(id, function(err, stressor) {
 		if(err || !stressor) {
 			callback(false, null);
 		}
@@ -107,6 +136,23 @@ function postComfort(stressorId, text, callback) {
 				}
 				else {
 					callback(true, comfort.id);
+				}
+			});
+		}
+	});
+}
+function deleteComfort(id, callback) {
+	Comfort.findById(id, function(err, comfort) {
+		if(err) {
+			callback(false);
+		}
+		else {
+			comfort.remove(function(err) {
+				if(err) {
+					callback(false);
+				}
+				else {
+					callback(true);
 				}
 			});
 		}
