@@ -1,18 +1,24 @@
 
-.stressor{font-family:'Quicksand',sans-serif;color:#AAA;background:rgba(0,0,0,0.8);padding:0;max-width:360px}.stressor .stressor-text{font-size:2.1em;margin:0;font-style:italic}
+.stressor{width:360px;font-family:'Quicksand',sans-serif;color:#AAA;background:rgba(0,0,0,0.8);padding:5px 15px 5px 15px}.stressor .stressor-text{font-size:2.2em;margin:0;font-style:italic}
 .stressor .red{color:#66cccc}
 .stressor .blue{color:#ff9999}
 .stressor .green{color:#33cc00}
 .stressor .purple{color:#ff99ff}
 .stressor .orange{color:#ffcc99}
-.stressor .comfort-list{margin:0;padding-top:5px;font-size:1.2em;list-style-type:none}.stressor .comfort-list li{margin:0;margin-left:-40px}
-.stressor input.comfort-button{font-size:1.6em}
-.stressor .comfort-link{padding-top:5px;color:#fff;cursor:pointer;font-size:1.4em;font-weight:light}
-.stressor .small{max-width:300px}.stressor .small .stressor-text{font-size:1.9em}
-.stressor .small .comfort-list{font-size:1em}
-.stressor .small comfort-link{font-size:1.4em}
-.stressor .medium{max-width:330px}.stressor .medium .stressor-text{font-size:2em}
-.stressor .medium .comfort-list{font-size:1.1em}
-.stressor .medium comfort-link{font-size:1.5em}
-.intro{font-family:'Lobster',cursive;font-size:2.2em}
-body{margin:0;padding:0;background-color:#000}
+.stressor .comfort-list{padding-bottom:3px;margin:0;font-size:1.3em;list-style-type:none}.stressor .comfort-list li{margin-top:5px;margin:0;margin-left:-40px}
+.stressor .comfort-text{font-size:1.4em;background:black;border:black;border-bottom:1px solid white;color:white;outline:none}
+.stressor .comfort-link{color:#fff;cursor:pointer;font-size:1.4em;font-weight:300}
+.stressor.small{max-width:280px}.stressor.small .stressor-text{font-size:1.4em}
+.stressor.small .comfort-list{font-size:.9em}
+.stressor.small .comfort-link{font-size:1em}
+.stressor.small .comfort-text{font-size:1em}
+.stressor.medium{max-width:330px}.stressor.medium .stressor-text{font-size:2em}
+.stressor.medium .comfort-list{font-size:1.1em}
+.stressor.medium .comfort-link{font-size:1.2em}
+.stressor.medium .comfort-text{font-size:1.2em}
+.quote-container{position:absolute;top:50%;margin-top:-105px;left:0;width:100%}
+.cool-quote{cursor:pointer;font-family:'Quicksand',sans-serif;font-style:italic;font-size:2.2em;color:#fff;width:450px;margin-left:auto;margin-right:auto}
+.gerald{font-style:normal;margin-top:5px;margin-left:40px}
+.postStress{font-size:1.4em;font-weight:300;color:white;position:absolute;margin-left:auto;margin-right:auto;bottom:5px;padding:10px}.postStress .add-stressor-button{color:#fff;cursor:pointer;font-weight:300}
+.postStress .add-stressor-text{font-size:1em;margin-left:10px;margin-right:10px;width:200px;background:black;border:black;border-bottom:1px solid white;color:white;outline:none}
+body{margin:0;padding:0;background-color:#000;font-family:'Quicksand',sans-serif;overflow:hidden}

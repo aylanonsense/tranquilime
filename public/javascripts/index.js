@@ -59,20 +59,20 @@ $(document).ready(function() {
 	postStress.hide();
 	var comfortCloud = new ComfortCloud();
 	comfortCloud.appendTo($('body'));
-	setTimeout(function() {
-		$('.cool-quote').fadeOut(6000);
-	}, 2000);
-	setTimeout(function() {
-		comfortCloud.start();
-	}, 4000);
-	setTimeout(function() {
-		postStress.fadeIn(3000)
-	}, 10000);
-	$('.add-stressor-button').on('click', function() {
-		var text = $('.add-stressor-text').val();
-		if(text !== '') {
-			$('.add-stressor-text').val('');
-			comfortCloud.createOwnBubble(text);
-		}
+	$('.cool-quote').on('click', function() {
+		$('.cool-quote').fadeOut(4000);
+		setTimeout(function() {
+			comfortCloud.start();
+		}, 1000);
+		setTimeout(function() {
+			postStress.fadeIn(3000)
+		}, 7000);
+		$('.add-stressor-button').on('click', function() {
+			var text = $('.add-stressor-text').val();
+			if(text !== '') {
+				$('.add-stressor-text').val('');
+				comfortCloud.createOwnBubble(text);
+			}
+		});
 	});
 });
