@@ -1,8 +1,9 @@
-.cloud{border:2px dashed grey}
-.stressor{font-family:'Quicksand',sans-serif;color:#AAA;background:rgba(0,0,0,0.4);padding:0}.stressor .stressor-text{font-size:2.1em;margin:0}
+
+.stressor{font-family:'Quicksand',sans-serif;color:#AAA;background:rgba(0,0,0,0.4);padding:0;width:360px}.stressor .stressor-text{font-size:2.1em;margin:0}
 .stressor .red{color:#66cccc}
-.stressor .blue{color:#ff9999}
+.stressor .blue{color:#ffcc99}
 .stressor .green{color:#33cc00}
+.stressor .purple{color:#ff99ff}
 .stressor .comfort-list{font-size:1.4em;list-style-type:none}.stressor .comfort-list li{margin:0}
 .stressor input.comfort-button{font-size:1.6em}
 .intro{font-family:'Lobster',cursive;font-size:2.2em}
