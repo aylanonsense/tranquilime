@@ -45,6 +45,7 @@ var ComfortCloud = (function() {
 		}
 	};
 	ComfortCloud.prototype._requestData = function() {
+		console.log("Requesting data..."); //TODO remove
 		var self = this;
 		getBunchOStress(5, [], function(additions, updates) {
 			self._handleData(additions, updates);
@@ -63,15 +64,16 @@ var ComfortCloud = (function() {
 	ComfortCloud.prototype._delayBubbleCreation = function() {
 		var self = this;
 		this._createTimer = setTimeout(function() {
-			if(self._bubbles.length > 0) {
-				var bubble = self._bubbles[0];
-				self._bubbles.splice(0, 1); //TODO check for errors
+			if(self._stressToCreate.length > 0) {
+				var bubble = self._stressToCreate[0];
+				self._stressToCreate.splice(0, 1);
 				self._makeABubble(bubble);
 			}
 			self._delayBubbleCreation();
 		}, Math.min(Math.max(100, Math.floor(50 + 400 * Math.random() + 20 * this._bubbles.length)), 1000));
 	};
 	ComfortCloud.prototype._makeABubble = function(bubbleParams) {
+		console.log("Making a bubble!") //TODO remove
 		var bubble = new ComfortBubble(bubbleParams);
 		this._bubbles.push(bubble);
 		bubble.appendTo(this._root);
@@ -79,7 +81,7 @@ var ComfortCloud = (function() {
 	ComfortCloud.prototype._updateExistingBubbles = function(updates) {
 		for(var i = 0; i < this._bubbles.length; i++) {
 			for(var j = 0; j < updates.length; j++) {
-				if(this._bubbles[i].getId() === updates[j].id) { //TODO check for errors
+				if(this._bubbles[i].getId() === updates[j].id) {
 					this._bubbles[i].updateComfort(updates[j].comfort);
 				}
 			}
@@ -91,7 +93,7 @@ var ComfortCloud = (function() {
 		});
 		for(var i = this._bubbles.length - 1; i >= 0; i--) {
 			if(this._bubbles[i].isDead()) {
-				this._bubbles.splice(i, 1); //TODO check for errors
+				this._bubbles.splice(i, 1);
 			}
 		}
 	};
