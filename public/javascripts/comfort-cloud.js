@@ -138,7 +138,21 @@ var ComfortCloud = (function() {
 			left: this._x
 		});
 		this._numComforts = params.comfort.length;
-		this._horizontalMove = 20;
+		var sizeClass;
+		this._horizontalMove
+		if(Math.random() < 0.33) {
+			sizeClass = "small";
+			this._horizontalMove = 13 + 13 / 10 * Math.random();
+		}
+		else if(Math.random() < 0.66) {
+			sizeClass = "medium";
+			this._horizontalMove = 15 + 15 / 10 * Math.random();
+		}
+		else {
+			sizeClass = "normal";
+			this._horizontalMove = 18.5 + 18.5 / 10 * Math.random();
+		}
+		this._root.addClass(sizeClass);
 		this._lifetime = 10 * 1000 + 15 * 1000 * Math.random();
 		this._timeAlive = 0;
 		this._root.animate({ left: this._x + this._lifetime / 1000 * this._horizontalMove }, { duration: this._lifetime, queue: false, easing: 'linear' });
