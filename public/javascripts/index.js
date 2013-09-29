@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	//MAKE PRETTY THINGS HAPPEN
 	setTimeout(function() {
-		$('.cool-quote').fadeOut(4000);
+		$('.cool-quote').fadeOut(6000);
 		var comfortCloud = new ComfortCloud();
 		comfortCloud.start();
 		comfortCloud.appendTo($('body'));

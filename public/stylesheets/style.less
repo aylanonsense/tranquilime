@@ -1,13 +1,13 @@
 .cloud{
 }
 .stressor {
+	max-width:360px;
 	font-family: 'Quicksand', sans-serif;
 	color: #AAA;
 	background: rgba(0, 0, 0, .8);
-	padding:0;
-	max-width:360px;
+	padding:5px 15px 5px 15px;
 	.stressor-text {
-		font-size:2.1em;
+		font-size:2.2em;
 		margin:0;
 		font-style:italic;
 	}
@@ -28,11 +28,12 @@
 	}
 
 	.comfort-list {
+		padding-bottom:3px;
 		margin:0;
-		padding-top: 5px;
-		font-size:1.2em;
+		font-size:1.3em;
 		list-style-type:none;
 		li {
+			margin-top: 5px;
 			margin:0;
 			margin-left:-40px;
 		}
@@ -40,32 +41,31 @@
 	input.comfort-text {
 	}
 	input.comfort-button {
-		font-size:1.6em;
+		font-size:1.7em;
 	}
 	.comfort-link{
-		padding-top:5px;
 		color:#fff;
 		cursor:pointer;
 		font-size:1.4em;
-		font-weight:light;
+		font-weight:300;
 	}
 
 }
 
-.stressor .small {
-	max-width:300px;
+.stressor.small {
+	max-width:280px;
 	.stressor-text {
-			font-size:1.9em;
+			font-size:1.4em;
 	}
 	.comfort-list {
-		font-size:1em;
+		font-size:.9em;
 	}
-	comfort-link {
-		font-size:1.4em;
+	.comfort-link {
+		font-size:1em;
 	}
 }
 
-.stressor .medium {
+.stressor.medium {
 	max-width:330px;
 	.stressor-text {
 			font-size:2em;
@@ -73,15 +73,31 @@
 	.comfort-list {
 		font-size:1.1em;
 	}
-	comfort-link {
+	.comfort-link {
 		font-size:1.5em;
 	}
 }
 
-
-.intro{
-	font-family: 'Lobster', cursive;
+.quote-container{
+	position: absolute;
+	top: 50%;
+	margin-top: -105px;
+	left: 0;
+	width: 100%;
+}
+.cool-quote {
+	font-family: 'Quicksand', cursive;
+	font-style:italic;
 	font-size:2.2em;
+	color:#fff;
+	width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.gerald{
+	font-style:normal;
+	margin-top:5px;
+	margin-left:40px;
 }
 
 body{
