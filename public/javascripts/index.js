@@ -10,7 +10,7 @@ $(document).ready(function() {
 		{ text: "I'm out of money.", comfort: [ "Get another job." ] },
 		{ text: "I can't decide on a color scheme for my room.", comfort: [] },
 		{ text: "My job is really really hard.", comfort: [ "Ask your boss for training." ] },
-		{ text: "This codethon is too awesome.", comfort: [ "Tell me about it!" ] },
+		{ text: "This codathon is too awesome.", comfort: [ "Tell me about it!" ] },
 		{ text: "My friends are all hipsters.", comfort: [ ] },
 		{ text: "America is headed in the wrong direction.", comfort: [] }
 	];

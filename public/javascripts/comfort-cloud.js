@@ -116,10 +116,10 @@ var ComfortCloud = (function() {
 		this._root.css('z-index', 5);
 		this._stressText = $('<p class="stressor-text"></p>').text(params.text).appendTo(this._root);
 		this._comfortList = $('<ol class="comfort-list"></ol>').appendTo(this._root).appendTo(this._root);
-		this._comfortLink = $('<span class="comfort-link"></span>').text('+ Comfort').appendTo(this._root);
-		this._comfortText = $('<input class="comfort-text" type="text"></input>').appendTo(this._root).hide();
+		this._comfortLink = $('<span class="comfort-link"></span>').text('+ Comfort Me').appendTo(this._root);
+		this._comfortText = $('<input class="comfort-text" type="textarea"></input>').appendTo(this._root).hide();
 		this._comfortBr = $('<br/>').appendTo(this._root).hide();
-		this._comfortButton = $('<input class="comfort-button" type="button" value="Give Comfort"></input>').appendTo(this._root).hide();
+		this._comfortButton = $('<div class="comfort-link"> Submit </input>').appendTo(this._root).hide();
 		this._comfortLink.on('click', function() {
 			self._startEditMode();
 		});
@@ -232,6 +232,7 @@ var ComfortCloud = (function() {
 			});
 		}
 	};
+
 	ComfortBubble.prototype.updateComfort = function(comfort) {
 		//TODO
 	};
