@@ -55,7 +55,10 @@ $(document).ready(function() {
 	}, 2000);*/
 
 	//MAKE PRETTY THINGS HAPPEN
-	var comfortCloud = new ComfortCloud();
-	comfortCloud.start();
-	comfortCloud.appendTo($('body'));
+	setTimeout(function() {
+		$('.cool-quote').fadeOut(4000);
+		var comfortCloud = new ComfortCloud();
+		comfortCloud.start();
+		comfortCloud.appendTo($('body'));
+	}, 2000);
 });
