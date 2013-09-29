@@ -1,7 +1,7 @@
 $(document).ready(function() {
-	/*
-	CREATE FAKE DATA
-	var fakeData = [
+	
+	//CREATE FAKE DATA
+	/*var fakeData = [
 		{ text: "My girlfriend broke up with me.", comfort: [ "I'm sorry :(" ] },
 		{ text: "My car broke down.", comfort: [] },
 		{ text: "I got fired from my job.", comfort: [ "Get a new job!", "Fire your boss!", "It was time for you to move on anyways." ] },
@@ -23,9 +23,9 @@ $(document).ready(function() {
 		});
 	});*/
 	
-	/*
-	DELETE EXISTING DATA
-	setTimeout(function() {
+	
+	//DELETE EXISTING DATA
+	/*setTimeout(function() {
 		getAllStress(function(stress) {
 			stress.forEach(function(stressor) {
 				$('<p>' + stressor.text + ' (' + stressor.id + ') <a class="delete-stressor" href="#' + stressor.id + '">delete</a></p>').appendTo('body').find('a');
@@ -52,7 +52,7 @@ $(document).ready(function() {
 				});
 			}
 		});
-	}, 1500);*/
+	}, 2000);*/
 
 	//MAKE PRETTY THINGS HAPPEN
 	var comfortCloud = new ComfortCloud();

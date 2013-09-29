@@ -210,7 +210,7 @@ function wrapStressors(stressors, callback) {
 		var i, j;
 		for(i = 0; i < stressArr.length; i++) {
 			for(j = 0; j < comforts.length; j++) {
-				if('' + stressArr[i].id ===  '' + comforts[j].stressorId) {
+				if('' + stressArr[i].id ==  '' + comforts[j].stressorId) {
 					stressArr[i].comfort.push({
 						id: comforts[j].id,
 						text: comforts[j].text

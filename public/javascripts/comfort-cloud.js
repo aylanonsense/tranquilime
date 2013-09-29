@@ -47,7 +47,10 @@ var ComfortCloud = (function() {
 	ComfortCloud.prototype._requestData = function() {
 		console.log("Requesting data..."); //TODO remove
 		var self = this;
-		getBunchOStress(5, [], function(additions, updates) {
+		var ids = this._bubbles.map(function(bubble) {
+			return bubble.getId();
+		});
+		getBunchOStress(5, ids, function(additions, updates) {
 			self._handleData(additions, updates);
 		});
 	};
