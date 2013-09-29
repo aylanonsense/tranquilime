@@ -124,13 +124,16 @@ var ComfortCloud = (function() {
 		});
 		this._numComforts = params.comfort.length;
 		this._horizontalMove = 20;
-		this._lifetime = 10 + 15 * Math.random();
-		this._root.animate({ left: this._x + this._lifetime * this._horizontalMove }, this._lifetime * 1000, 'linear');
+		this._lifetime = 10 * 1000 + 15 * 1000 * Math.random();
+		this._timeAlive = 0;
+		this._root.animate({ left: this._x + this._lifetime / 1000 * this._horizontalMove }, { duration: this._lifetime, queue: false, easing: 'linear' });
+		this._root.fadeIn({duration: 1000, queue: false });
 	}
 	ComfortBubble.prototype.getId = function() {
 		return this._id;
 	};
 	ComfortBubble.prototype.updateAnimation = function(ms, paused) {
+		this._timeAlive += ms;
 		/*this._x += this._horizontalMove * ms / 1000;
 		this._root.css({
 			top: this._yPercent * $(window).height(),
