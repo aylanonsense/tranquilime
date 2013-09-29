@@ -27,7 +27,7 @@ var ComfortCloud = (function() {
 		this._delayBubbleCreation();
 		this._dataTimer = setInterval(function() {
 			self._requestData();
-		}, 5000);
+		}, 1000);
 	};
 	ComfortCloud.prototype.stop = function() {
 		if(this._animTimer !== null) {
@@ -73,7 +73,7 @@ var ComfortCloud = (function() {
 		}, Math.min(Math.max(100, Math.floor(50 + 400 * Math.random() + 20 * this._bubbles.length)), 1000));
 	};
 	ComfortCloud.prototype._makeABubble = function(bubbleParams) {
-		console.log("Making a bubble!") //TODO remove
+		console.log("Making a bubble!"); //TODO remove
 		var bubble = new ComfortBubble(bubbleParams);
 		this._bubbles.push(bubble);
 		bubble.appendTo(this._root);
@@ -102,10 +102,20 @@ var ComfortCloud = (function() {
 	};
 
 	function ComfortBubble(params) {
-		this._root = $('<p>Bubble!</p>');
+		this._root = $('<div class="stressor"></div>');
+		this._stressText = $('<p class="stressor-text"></p>').text(params.text).appendTo(this._root);
+		this._comfortList = $('<ol class="comfort-list"></ol>').appendTo(this._root).appendTo(this._root);
+		this._comfortText = $('<input class="comfort-text" type="text"></input>').appendTo(this._root);
+		this._comfortButton = $('<input class="comfort-button" type="button" value="Give Comfort"></input>').appendTo(this._root);
+		this._id = params.id;
+		for(var i = params.comfort.length - 1; i >= 0; i--) {
+			console.log(i, params.comfort[i]);
+			$('<li></li>').text(params.comfort[i].text).appendTo(this._comfortList);
+		}
+		this._numComforts = params.comfort.length;
 	}
 	ComfortBubble.prototype.getId = function() {
-
+		return this._id;
 	};
 	ComfortBubble.prototype.updateAnimation = function(ms, paused) {
 
