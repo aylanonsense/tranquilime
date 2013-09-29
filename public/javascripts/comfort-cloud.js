@@ -118,15 +118,11 @@ var ComfortCloud = (function() {
 		for(var i = params.comfort.length - 1; i >= 0; i--) {
 			var r = Math.random();
 			var color;
-			if(r < 1 / 3) {
-				color = 'red';
-			}
-			else if(r < 2 / 3) {
-				color = 'green';
-			}
-			else {
-				color = 'blue';
-			}
+			if(r < 1 / 5) { color = 'red'; }
+			else if(r < 2 / 5) { color = 'green'; }
+			else if(r < 3 / 5) { color = 'blue'; }
+			else if(r < 4 / 5) { color = 'purple'; }
+			else { color = 'orange'; }
 			$('<li class="' + color + '"></li>').text(params.comfort[i].text).appendTo(this._comfortList);
 		}
 		this._x = (0.8 * Math.random() - 0.2) * $(window).width();
@@ -142,12 +138,16 @@ var ComfortCloud = (function() {
 		this._timeAlive = 0;
 		this._root.animate({ left: this._x + this._lifetime / 1000 * this._horizontalMove }, { duration: this._lifetime, queue: false, easing: 'linear' });
 		this._root.fadeIn({duration: 1000, queue: false });
+		this._isDying = false;
 	}
 	ComfortBubble.prototype.getId = function() {
 		return this._id;
 	};
 	ComfortBubble.prototype.updateAnimation = function(ms, paused) {
 		this._timeAlive += ms;
+		if(this._timeAlive >= this._lifetime - 1000 && this._timeAlive - ms < this._lifetime - 1000) {
+			this._root.fadeOut({duration: 1000, queue: false });
+		}
 		/*this._x += this._horizontalMove * ms / 1000;
 		this._root.css({
 			top: this._yPercent * $(window).height(),
