@@ -55,12 +55,24 @@ $(document).ready(function() {
 	}, 2000);*/
 
 	//MAKE PRETTY THINGS HAPPEN
+	var postStress = $('.postStress');
+	postStress.hide();
+	var comfortCloud = new ComfortCloud();
+	comfortCloud.appendTo($('body'));
 	setTimeout(function() {
 		$('.cool-quote').fadeOut(6000);
-		var comfortCloud = new ComfortCloud();
-		comfortCloud.appendTo($('body'));
-		setTimeout(function() {
-			comfortCloud.start();
-		}, 2000);
 	}, 2000);
+	setTimeout(function() {
+		comfortCloud.start();
+	}, 4000);
+	setTimeout(function() {
+		postStress.fadeIn(3000)
+	}, 10000);
+	$('.add-stressor-button').on('click', function() {
+		var text = $('.add-stressor-text').val();
+		if(text !== '') {
+			$('.add-stressor-text').val('');
+			comfortCloud.createOwnBubble(text);
+		}
+	});
 });

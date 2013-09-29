@@ -139,13 +139,24 @@ var ComfortCloud = (function() {
 			if(self._stressToCreate.length > 0) {
 				var bubble = self._stressToCreate[0];
 				self._stressToCreate.splice(0, 1);
-				self._makeABubble(bubble);
+				self._makeABubble(bubble, false);
 			}
 			self._delayBubbleCreation();
 		}, Math.min(Math.max(1000, Math.floor(500 + 1000 * Math.random() + 600 * this._bubbles.length * Math.random())), 6000));
 	};
-	ComfortCloud.prototype._makeABubble = function(bubbleParams) {
-		console.log("Making a bubble!"); //TODO remove
+	ComfortCloud.prototype.createOwnBubble = function(text) {
+		var self = this;
+		postStress(text, function(successful, id) {
+			if(successful) {
+				self._makeABubble({
+					id: id,
+					text: text,
+					comfort: []
+				}, true);
+			}
+		});
+	};
+	ComfortCloud.prototype._createCoordinates = function() {
 		var minCollision = null;
 		var bestCoordinates = null;
 		var boundingBoxes = this._bubbles.map(function(bubble) {
@@ -165,7 +176,12 @@ var ComfortCloud = (function() {
 				bestCoordinates = { x: x, y: y };
 			}
 		}
-		var bubble = new ComfortBubble(bubbleParams, bestCoordinates.x, bestCoordinates.y);
+		return bestCoordinates;
+	};
+	ComfortCloud.prototype._makeABubble = function(bubbleParams, isOwn) {
+		console.log("Making a bubble!"); //TODO remove
+		var coordinates = this._createCoordinates();
+		var bubble = new ComfortBubble(bubbleParams, coordinates.x, coordinates.y, isOwn);
 		this._bubbles.push(bubble);
 		bubble.appendTo(this._root);
 	};
@@ -192,7 +208,7 @@ var ComfortCloud = (function() {
 		this._root.appendTo(parent);
 	};
 
-	function ComfortBubble(params, x, y) {
+	function ComfortBubble(params, x, y, isOwned) {
 		var self = this;
 		this._root = $('<div class="stressor"></div>');
 		this._root.css('z-index', 5);
@@ -202,20 +218,22 @@ var ComfortCloud = (function() {
 		this._comfortText = $('<input class="comfort-text" type="textarea"></input>').appendTo(this._root).hide();
 		this._comfortBr = $('<br/>').appendTo(this._root).hide();
 		this._comfortButton = $('<div class="comfort-link"> Submit </input>').appendTo(this._root).hide();
-		this._comfortLink.on('click', function() {
-			self._startEditMode();
-		});
-		this._comfortText.on('keyup', function(e) {
-			if (e.keyCode == 13) {
-        		self.addComfort();
-    		}
-    		else if(e.keyCode == 27){
-    			self.escapeComfort();
-    		}
-		});
-		this._comfortButton.on('click', function() {
-			self.addComfort();
-		});
+		if(!isOwned) {
+			this._comfortLink.on('click', function() {
+				self._startEditMode();
+			});
+			this._comfortText.on('keyup', function(e) {
+				if (e.keyCode == 13) {
+	        		self.addComfort();
+	    		}
+	    		else if(e.keyCode == 27){
+	    			self.escapeComfort();
+	    		}
+			});
+			this._comfortButton.on('click', function() {
+				self.addComfort();
+			});
+		}
 		this._id = params.id;
 		for(var i = params.comfort.length - 1; i >= 0; i--) {
 			this._appendNewComfort(params.comfort[i].text);
@@ -245,11 +263,17 @@ var ComfortCloud = (function() {
 		this._root.addClass(sizeClass);
 		this._lifetime = 10 * 1000 + 15 * 1000 * Math.random();
 		this._timeAlive = 0;
+		if(isOwned) {
+			this._root.addClass('personal');
+			this._comfortLink.text('Awaiting comfort...');
+			this._lifetime += 10000;
+		}
 		this._root.animate({ left: this._x + this._lifetime / 1000 * this._horizontalMove }, { duration: this._lifetime, queue: false, easing: 'linear' });
 		this._root.fadeIn({duration: 1000, queue: false });
 		this._isDying = false;
 		this._comforted = false;
 		this._isBeingEdited = false;
+		this._isOwned = isOwned;
 	}
 	ComfortBubble.prototype.getId = function() {
 		return this._id;
