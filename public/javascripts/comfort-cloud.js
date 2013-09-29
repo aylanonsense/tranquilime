@@ -115,6 +115,13 @@ var ComfortCloud = (function() {
 			console.log(i, params.comfort[i]);
 			$('<li></li>').text(params.comfort[i].text).appendTo(this._comfortList);
 		}
+		this._x = Math.random() * $(window).width();
+		this._yPercent = Math.random();
+		this._root.css({
+			position: 'absolute',
+			top: this._yPercent * $(window).height(),
+			left: this._x
+		});
 		this._numComforts = params.comfort.length;
 	}
 	ComfortBubble.prototype.getId = function() {
