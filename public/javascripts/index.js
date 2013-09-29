@@ -57,4 +57,5 @@ $(document).ready(function() {
 	//MAKE PRETTY THINGS HAPPEN
 	var comfortCloud = new ComfortCloud();
 	comfortCloud.start();
+	comfortCloud.appendTo($('body'));
 });
