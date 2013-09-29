@@ -1,4 +1,69 @@
 var ComfortCloud = (function() {
+	function amtCollidinggArr(square1, squares) {
+		var amt = 0;
+		squares.forEach(function(square2) {
+			amt += amtColliding(square1, square2);
+		});
+		return amt;
+	}
+	function amtColliding(square1, square2) {
+		var xAmt = 0;
+		var yAmt = 0;
+		if(square1.x < square2.x) {
+			if(square1.x + square1.width > square2.x) {
+				if(square1.x + square1.width > square2.x + square2.width) {
+					xAmt = square2.width;
+				}
+				else {
+					xAmt = square1.x + square1.width - square2.x;
+				}
+			}
+			else {
+				xAmt = 0;
+			}
+		}
+		else {
+			if(square2.x + square2.width > square1.x) {
+				if(square2.x + square2.width > square1.x + square1.width) {
+					xAmt = square1.width;
+				}
+				else {
+					xAmt = square2.x + square2.width - square1.x;
+				}
+			}
+			else {
+				xAmt = 0;
+			}
+		}
+		if(square1.y < square2.y) {
+			if(square1.y + square1.height > square2.y) {
+				if(square1.y + square1.height > square2.y + square2.height) {
+					yAmt = square2.height;
+				}
+				else {
+					yAmt = square1.y + square1.height - square2.y;
+				}
+			}
+			else {
+				yAmt = 0;
+			}
+		}
+		else {
+			if(square2.y + square2.height > square1.y) {
+				if(square2.y + square2.height > square1.y + square1.height) {
+					yAmt = square1.height;
+				}
+				else {
+					yAmt = square2.y + square2.height - square1.y;
+				}
+			}
+			else {
+				yAmt = 0;
+			}
+		}
+		return xAmt * yAmt;
+	}
+
 	function ComfortCloud() {
 		this._animTimer = null;
 		this._createTimer = null;
@@ -81,9 +146,26 @@ var ComfortCloud = (function() {
 	};
 	ComfortCloud.prototype._makeABubble = function(bubbleParams) {
 		console.log("Making a bubble!"); //TODO remove
-		var x = (0.6 * Math.random() - 0.05) * $(window).width();
-		var y = 0.7 * Math.random() * $(window).height();
-		var bubble = new ComfortBubble(bubbleParams, x, y);
+		var minCollision = null;
+		var bestCoordinates = null;
+		var boundingBoxes = this._bubbles.map(function(bubble) {
+			return bubble.getBoundingBox();
+		});
+		for(var i = 0; i < 50; i++) {
+			var x = (0.6 * Math.random() - 0.05) * $(window).width();
+			var y = 0.75 * Math.random() * $(window).height();
+			var collisionAmt = amtCollidinggArr({
+				x: x - 10,
+				y: y - 10,
+				width: 330,
+				height: 240
+			}, boundingBoxes);
+			if(minCollision === null || collisionAmt < minCollision) {
+				minCollision = collisionAmt;
+				bestCoordinates = { x: x, y: y };
+			}
+		}
+		var bubble = new ComfortBubble(bubbleParams, bestCoordinates.x, bestCoordinates.y);
 		this._bubbles.push(bubble);
 		bubble.appendTo(this._root);
 	};
@@ -147,18 +229,18 @@ var ComfortCloud = (function() {
 		});
 		this._numComforts = params.comfort.length;
 		var sizeClass;
-		this._horizontalMove
+		this._horizontalMove = 0;
 		if(Math.random() < 0.33) {
 			sizeClass = "small";
-			this._horizontalMove = 13 + 13 / 10 * Math.random();
+			this._horizontalMove = 7 + 7 / 10 * Math.random();
 		}
 		else if(Math.random() < 0.66) {
 			sizeClass = "medium";
-			this._horizontalMove = 15 + 15 / 10 * Math.random();
+			this._horizontalMove = 12.5 + 12.5 / 10 * Math.random();
 		}
 		else {
 			sizeClass = "normal";
-			this._horizontalMove = 18.5 + 18.5 / 10 * Math.random();
+			this._horizontalMove = 20 + 20 / 10 * Math.random();
 		}
 		this._root.addClass(sizeClass);
 		this._lifetime = 10 * 1000 + 15 * 1000 * Math.random();
