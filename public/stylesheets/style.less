@@ -3,9 +3,9 @@
 .stressor {
 	font-family: 'Quicksand', sans-serif;
 	color: #AAA;
-	background: rgba(0, 0, 0, .4);
+	background: rgba(0, 0, 0, .8);
 	padding:0;
-	width:360px;
+	max-width:360px;
 	.stressor-text {
 		font-size:2.1em;
 		margin:0;
@@ -29,10 +29,12 @@
 
 	.comfort-list {
 		margin:0;
-		font-size:1.4em;
+		padding-top: 5px;
+		font-size:1.2em;
 		list-style-type:none;
 		li {
 			margin:0;
+			margin-left:-40px;
 		}
 	}
 	input.comfort-text {
@@ -41,11 +43,41 @@
 		font-size:1.6em;
 	}
 	.comfort-link{
+		padding-top:5px;
 		color:#fff;
 		cursor:pointer;
+		font-size:1.4em;
+		font-weight:light;
 	}
 
 }
+
+.stressor .small {
+	max-width:300px;
+	.stressor-text {
+			font-size:1.9em;
+	}
+	.comfort-list {
+		font-size:1em;
+	}
+	comfort-link {
+		font-size:1.4em;
+	}
+}
+
+.stressor .medium {
+	max-width:330px;
+	.stressor-text {
+			font-size:2em;
+	}
+	.comfort-list {
+		font-size:1.1em;
+	}
+	comfort-link {
+		font-size:1.5em;
+	}
+}
+
 
 .intro{
 	font-family: 'Lobster', cursive;
