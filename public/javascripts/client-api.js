@@ -1,11 +1,12 @@
 function getBunchOStress(amt, existingStressors, callback) { //callback(additions, updates)
+	var stressors = (existingStressors === null || existingStressors.length === 0 ? null : existingStressors.join());
 	$.ajax({
 		url: 'api/bunchostress',
 		type: 'GET',
 		dataType: 'json',
 		data: {
 			amt: amt,
-			stressors: (existingStressors.length === 0 ? null : existingStressors.join())
+			stressors: stressors
 		},
 		complete: function(response) {
 			callback(response.responseJSON.additions, response.responseJSON.updates);

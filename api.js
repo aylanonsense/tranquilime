@@ -5,7 +5,7 @@ var Comfort = models.Comfort;
 function addRoutes(app) {
 	app.get('/api/bunchostress', function(req, res) {
 		var amt = req.query.amt;
-		var stressors = (stressors === null || stressors === "" ? null : req.query.stressors.split(','));
+		var stressors = (req.query.stressors === null || req.query.stressors === "" ? [] : req.query.stressors.split(','));
 		getBunchOStress(amt, stressors, function(additions, updates) {
 			res.send({ additions: additions, updates: updates });
 		});
