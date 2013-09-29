@@ -123,6 +123,11 @@ var ComfortCloud = (function() {
 		this._comfortLink.on('click', function() {
 			self._startEditMode();
 		});
+		this._comfortText.on('keyup', function(e) {
+			if (e.keyCode == 13) {
+        		self.addComfort();
+    		}
+		});
 		this._comfortButton.on('click', function() {
 			self.addComfort();
 		});
