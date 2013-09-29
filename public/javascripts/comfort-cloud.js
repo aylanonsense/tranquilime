@@ -23,7 +23,7 @@ var ComfortCloud = (function() {
 			var now = Date.now();
 			self._timeOfLastAnimationUpdate = now;
 			self._updateAnimation(now - then);
-		}, Math.floor(1000 / 35));
+		}, Math.floor(1000 / 60));
 		this._delayBubbleCreation();
 		this._dataTimer = setInterval(function() {
 			self._requestData();
@@ -115,7 +115,7 @@ var ComfortCloud = (function() {
 			console.log(i, params.comfort[i]);
 			$('<li></li>').text(params.comfort[i].text).appendTo(this._comfortList);
 		}
-		this._x = Math.random() * $(window).width();
+		this._x = (0.8 * Math.random() - 0.2) * $(window).width();
 		this._yPercent = Math.random();
 		this._root.css({
 			position: 'absolute',
@@ -123,12 +123,19 @@ var ComfortCloud = (function() {
 			left: this._x
 		});
 		this._numComforts = params.comfort.length;
+		this._horizontalMove = 20;
+		this._lifetime = 10 + 15 * Math.random();
+		this._root.animate({ left: this._x + this._lifetime * this._horizontalMove }, this._lifetime * 1000, 'linear');
 	}
 	ComfortBubble.prototype.getId = function() {
 		return this._id;
 	};
 	ComfortBubble.prototype.updateAnimation = function(ms, paused) {
-
+		/*this._x += this._horizontalMove * ms / 1000;
+		this._root.css({
+			top: this._yPercent * $(window).height(),
+			left: this._x
+		});*/
 	};
 	ComfortBubble.prototype.updateComfort = function(comfort) {
 
