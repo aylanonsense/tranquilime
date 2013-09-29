@@ -81,7 +81,9 @@ var ComfortCloud = (function() {
 	};
 	ComfortCloud.prototype._makeABubble = function(bubbleParams) {
 		console.log("Making a bubble!"); //TODO remove
-		var bubble = new ComfortBubble(bubbleParams);
+		var x = (0.6 * Math.random() - 0.05) * $(window).width();
+		var y = 0.7 * Math.random() * $(window).height();
+		var bubble = new ComfortBubble(bubbleParams, x, y);
 		this._bubbles.push(bubble);
 		bubble.appendTo(this._root);
 	};
@@ -108,7 +110,7 @@ var ComfortCloud = (function() {
 		this._root.appendTo(parent);
 	};
 
-	function ComfortBubble(params) {
+	function ComfortBubble(params, x, y) {
 		var self = this;
 		this._root = $('<div class="stressor"></div>');
 		this._root.css('z-index', 5);
@@ -128,11 +130,11 @@ var ComfortCloud = (function() {
 		for(var i = params.comfort.length - 1; i >= 0; i--) {
 			this._appendNewComfort(params.comfort[i].text);
 		}
-		this._x = (0.8 * Math.random() - 0.2) * $(window).width();
-		this._yPercent = Math.random();
+		this._x = x;//(0.8 * Math.random() - 0.2) * $(window).width();
+		this._y = y;//Math.random();
 		this._root.css({
 			position: 'absolute',
-			top: this._yPercent * $(window).height(),
+			top: this._y,
 			left: this._x
 		});
 		this._numComforts = params.comfort.length;
@@ -147,6 +149,14 @@ var ComfortCloud = (function() {
 	}
 	ComfortBubble.prototype.getId = function() {
 		return this._id;
+	};
+	ComfortBubble.prototype.getBoundingBox = function() {
+		return {
+			x: +(this._root.css('left').replace('px', '')),
+			y: +(this._root.css('top').replace('px', '')),
+			width: this._root.width(),
+			height: this._root.height()
+		};
 	};
 	ComfortBubble.prototype.updateAnimation = function(ms, paused) {
 		if(!this._isBeingEdited) {
@@ -188,6 +198,7 @@ var ComfortCloud = (function() {
 			this._comfortText.val('');
 			postComfort(text, this.getId(), function(successful) {
 				if(successful) {
+					self._numComforts++;
 					self._appendNewComfort(text);
 					self._comfortText.fadeOut(400);
 					self._comfortButton.fadeOut(400);
@@ -203,7 +214,7 @@ var ComfortCloud = (function() {
 		}
 	};
 	ComfortBubble.prototype.updateComfort = function(comfort) {
-
+		//TODO
 	};
 	ComfortBubble.prototype.isDead = function() {
 		return this._timeAlive > this._lifetime;
