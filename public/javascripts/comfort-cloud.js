@@ -25,9 +25,10 @@ var ComfortCloud = (function() {
 			self._updateAnimation(now - then);
 		}, Math.floor(1000 / 60));
 		this._delayBubbleCreation();
+		self._requestData();
 		this._dataTimer = setInterval(function() {
 			self._requestData();
-		}, 1000);
+		}, 5000);
 	};
 	ComfortCloud.prototype.stop = function() {
 		if(this._animTimer !== null) {
@@ -49,6 +50,9 @@ var ComfortCloud = (function() {
 		var self = this;
 		var ids = this._bubbles.map(function(bubble) {
 			return bubble.getId();
+		});
+		this._stressToCreate.forEach(function(stress) {
+			ids.push(stress.id);
 		});
 		getBunchOStress(5, ids, function(additions, updates) {
 			self._handleData(additions, updates);
