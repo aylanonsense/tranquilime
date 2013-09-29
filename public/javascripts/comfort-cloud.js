@@ -127,6 +127,9 @@ var ComfortCloud = (function() {
 			if (e.keyCode == 13) {
         		self.addComfort();
     		}
+    		else if(e.keyCode == 27){
+    			self.escapeComfort();
+    		}
 		});
 		this._comfortButton.on('click', function() {
 			self.addComfort();
@@ -206,6 +209,7 @@ var ComfortCloud = (function() {
 				self._comfortText.fadeIn(400);
 				self._comfortButton.fadeIn(400);
 				self._comfortBr.fadeIn(400);
+				self._comfortText.focus();
 			}, 400);
 		}
 	};
@@ -227,10 +231,25 @@ var ComfortCloud = (function() {
 						self._timeAlive = 0;
 						self._x = +(self._root.css('left').replace('px', ''));
 						self._root.animate({ left: self._x + self._lifetime / 1000 * self._horizontalMove }, { duration: self._lifetime, queue: false, easing: 'linear' });
-					}, 1500);
+					}, 1000);
 				}
 			});
 		}
+	};
+	ComfortBubble.prototype.escapeComfort = function() {
+		var self = this;
+		this._comfortText.val('');
+		self._comfortText.fadeOut(400);
+		self._comfortButton.fadeOut(400);
+		self._comfortBr.fadeOut(400);
+		setTimeout(function() {
+			self._isBeingEdited = false;
+			self._comfortLink.fadeIn(400);
+			self._timeAlive = 0;
+			self._x = +(self._root.css('left').replace('px', ''));
+			self._root.animate({ left: self._x + self._lifetime / 1000 * self._horizontalMove }, { duration: self._lifetime, queue: false, easing: 'linear' });
+		}, 400);
+	
 	};
 
 	ComfortBubble.prototype.updateComfort = function(comfort) {
