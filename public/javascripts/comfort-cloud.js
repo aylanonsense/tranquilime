@@ -112,8 +112,18 @@ var ComfortCloud = (function() {
 		this._comfortButton = $('<input class="comfort-button" type="button" value="Give Comfort"></input>').appendTo(this._root);
 		this._id = params.id;
 		for(var i = params.comfort.length - 1; i >= 0; i--) {
-			console.log(i, params.comfort[i]);
-			$('<li></li>').text(params.comfort[i].text).appendTo(this._comfortList);
+			var r = Math.random();
+			var color;
+			if(r < 1 / 3) {
+				color = 'red';
+			}
+			else if(r < 2 / 3) {
+				color = 'green';
+			}
+			else {
+				color = 'blue';
+			}
+			$('<li class="' + color + '"></li>').text(params.comfort[i].text).appendTo(this._comfortList);
 		}
 		this._x = (0.8 * Math.random() - 0.2) * $(window).width();
 		this._yPercent = Math.random();
