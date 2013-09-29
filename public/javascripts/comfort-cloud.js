@@ -111,10 +111,16 @@ var ComfortCloud = (function() {
 	function ComfortBubble(params) {
 		var self = this;
 		this._root = $('<div class="stressor"></div>');
+		this._root.css('z-index', 5);
 		this._stressText = $('<p class="stressor-text"></p>').text(params.text).appendTo(this._root);
 		this._comfortList = $('<ol class="comfort-list"></ol>').appendTo(this._root).appendTo(this._root);
-		this._comfortText = $('<input class="comfort-text" type="text"></input>').appendTo(this._root);
-		this._comfortButton = $('<input class="comfort-button" type="button" value="Give Comfort"></input>').appendTo(this._root);
+		this._comfortLink = $('<span class="comfort-link"></span>').text('+ Comfort').appendTo(this._root);
+		this._comfortText = $('<input class="comfort-text" type="text"></input>').appendTo(this._root).hide();
+		this._comfortBr = $('<br/>').appendTo(this._root).hide();
+		this._comfortButton = $('<input class="comfort-button" type="button" value="Give Comfort"></input>').appendTo(this._root).hide();
+		this._comfortLink.on('click', function() {
+			self._startEditMode();
+		});
 		this._comfortButton.on('click', function() {
 			self.addComfort();
 		});
@@ -137,14 +143,17 @@ var ComfortCloud = (function() {
 		this._root.fadeIn({duration: 1000, queue: false });
 		this._isDying = false;
 		this._comforted = false;
+		this._isBeingEdited = false;
 	}
 	ComfortBubble.prototype.getId = function() {
 		return this._id;
 	};
 	ComfortBubble.prototype.updateAnimation = function(ms, paused) {
-		this._timeAlive += ms;
-		if(this._timeAlive >= this._lifetime - 1000 && this._timeAlive - ms < this._lifetime - 1000) {
-			this._root.fadeOut({duration: 1000, queue: false });
+		if(!this._isBeingEdited) {
+			this._timeAlive += ms;
+			if(this._timeAlive >= this._lifetime - 1000 && this._timeAlive - ms < this._lifetime - 1000) {
+				this._root.fadeOut({duration: 1000, queue: false });
+			}
 		}
 	};
 	ComfortBubble.prototype._appendNewComfort = function(text) {
@@ -157,6 +166,20 @@ var ComfortCloud = (function() {
 		else { color = 'orange'; }
 		$('<li class="' + color + '"></li>').text(text).appendTo(this._comfortList);
 	};
+	ComfortBubble.prototype._startEditMode = function() {
+		var self = this;
+		if(!this._isDying && !this._isBeingEdited && !this._comforted && this._timeAlive > 1000) {
+			this._isBeingEdited = true;
+			this._comfortLink.fadeOut(400);
+			this._root.stop();
+			this._root.css('z-index', 9);
+			setTimeout(function() {
+				self._comfortText.fadeIn(400);
+				self._comfortButton.fadeIn(400);
+				self._comfortBr.fadeIn(400);
+			}, 400);
+		}
+	};
 	ComfortBubble.prototype.addComfort = function() {
 		var self = this;
 		var text = '' + this._comfortText.val();
@@ -166,6 +189,15 @@ var ComfortCloud = (function() {
 			postComfort(text, this.getId(), function(successful) {
 				if(successful) {
 					self._appendNewComfort(text);
+					self._comfortText.fadeOut(400);
+					self._comfortButton.fadeOut(400);
+					self._comfortBr.fadeOut(400);
+					setTimeout(function() {
+						self._isBeingEdited = false;
+						self._timeAlive = 0;
+						self._x = +(self._root.css('left').replace('px', ''));
+						self._root.animate({ left: self._x + self._lifetime / 1000 * self._horizontalMove }, { duration: self._lifetime, queue: false, easing: 'linear' });
+					}, 1500);
 				}
 			});
 		}
