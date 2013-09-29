@@ -5,7 +5,7 @@ function getBunchOStress(amt, existingStressors, callback) { //callback(addition
 		dataType: 'json',
 		data: {
 			amt: amt,
-			stressors: (existingStresssors.length === 0 ? null : existingStressors.join())
+			stressors: (existingStressors.length === 0 ? null : existingStressors.join())
 		},
 		complete: function(response) {
 			callback(response.responseJSON.additions, response.responseJSON.updates);
