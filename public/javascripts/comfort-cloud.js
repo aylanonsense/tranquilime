@@ -109,21 +109,18 @@ var ComfortCloud = (function() {
 	};
 
 	function ComfortBubble(params) {
+		var self = this;
 		this._root = $('<div class="stressor"></div>');
 		this._stressText = $('<p class="stressor-text"></p>').text(params.text).appendTo(this._root);
 		this._comfortList = $('<ol class="comfort-list"></ol>').appendTo(this._root).appendTo(this._root);
 		this._comfortText = $('<input class="comfort-text" type="text"></input>').appendTo(this._root);
 		this._comfortButton = $('<input class="comfort-button" type="button" value="Give Comfort"></input>').appendTo(this._root);
+		this._comfortButton.on('click', function() {
+			self.addComfort();
+		});
 		this._id = params.id;
 		for(var i = params.comfort.length - 1; i >= 0; i--) {
-			var r = Math.random();
-			var color;
-			if(r < 1 / 5) { color = 'red'; }
-			else if(r < 2 / 5) { color = 'green'; }
-			else if(r < 3 / 5) { color = 'blue'; }
-			else if(r < 4 / 5) { color = 'purple'; }
-			else { color = 'orange'; }
-			$('<li class="' + color + '"></li>').text(params.comfort[i].text).appendTo(this._comfortList);
+			this._appendNewComfort(params.comfort[i].text);
 		}
 		this._x = (0.8 * Math.random() - 0.2) * $(window).width();
 		this._yPercent = Math.random();
@@ -139,6 +136,7 @@ var ComfortCloud = (function() {
 		this._root.animate({ left: this._x + this._lifetime / 1000 * this._horizontalMove }, { duration: this._lifetime, queue: false, easing: 'linear' });
 		this._root.fadeIn({duration: 1000, queue: false });
 		this._isDying = false;
+		this._comforted = false;
 	}
 	ComfortBubble.prototype.getId = function() {
 		return this._id;
@@ -148,17 +146,35 @@ var ComfortCloud = (function() {
 		if(this._timeAlive >= this._lifetime - 1000 && this._timeAlive - ms < this._lifetime - 1000) {
 			this._root.fadeOut({duration: 1000, queue: false });
 		}
-		/*this._x += this._horizontalMove * ms / 1000;
-		this._root.css({
-			top: this._yPercent * $(window).height(),
-			left: this._x
-		});*/
+	};
+	ComfortBubble.prototype._appendNewComfort = function(text) {
+		var r = Math.random();
+		var color;
+		if(r < 1 / 5) { color = 'red'; }
+		else if(r < 2 / 5) { color = 'green'; }
+		else if(r < 3 / 5) { color = 'blue'; }
+		else if(r < 4 / 5) { color = 'purple'; }
+		else { color = 'orange'; }
+		$('<li class="' + color + '"></li>').text(text).appendTo(this._comfortList);
+	};
+	ComfortBubble.prototype.addComfort = function() {
+		var self = this;
+		var text = '' + this._comfortText.val();
+		if(!this._comforted && text !== '') {
+			this._comforted = true;
+			this._comfortText.val('');
+			postComfort(text, this.getId(), function(successful) {
+				if(successful) {
+					self._appendNewComfort(text);
+				}
+			});
+		}
 	};
 	ComfortBubble.prototype.updateComfort = function(comfort) {
 
 	};
 	ComfortBubble.prototype.isDead = function() {
-
+		return this._timeAlive > this._lifetime;
 	};
 	ComfortBubble.prototype.appendTo = function(parent) {
 		this._root.appendTo(parent);
