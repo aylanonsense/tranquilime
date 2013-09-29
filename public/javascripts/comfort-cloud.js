@@ -77,7 +77,7 @@ var ComfortCloud = (function() {
 				self._makeABubble(bubble);
 			}
 			self._delayBubbleCreation();
-		}, Math.min(Math.max(100, Math.floor(50 + 400 * Math.random() + 20 * this._bubbles.length)), 1000));
+		}, Math.min(Math.max(1000, Math.floor(500 + 1000 * Math.random() + 600 * this._bubbles.length * Math.random())), 6000));
 	};
 	ComfortCloud.prototype._makeABubble = function(bubbleParams) {
 		console.log("Making a bubble!"); //TODO remove
