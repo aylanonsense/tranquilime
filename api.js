@@ -120,12 +120,11 @@ function getAllComfort(callback) {
 	});
 }
 function postComfort(stressorId, text, callback) {
-	Stressor.findById(id).where('deleted').ne(true).exec(function(err, stressor) {
+	Stressor.findById(stressorId).where('deleted').ne(true).exec(function(err, stressor) {
 		if(err || !stressor) {
 			callback(false, null);
 		}
 		else {
-			stressor = stressor[0];
 			var comfort = new Comfort({
 				stressorId: stressor.id,
 				text: text
