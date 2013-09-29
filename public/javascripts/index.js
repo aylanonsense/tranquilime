@@ -58,7 +58,9 @@ $(document).ready(function() {
 	setTimeout(function() {
 		$('.cool-quote').fadeOut(6000);
 		var comfortCloud = new ComfortCloud();
-		comfortCloud.start();
 		comfortCloud.appendTo($('body'));
+		setTimeout(function() {
+			comfortCloud.start();
+		}, 2000);
 	}, 2000);
 });

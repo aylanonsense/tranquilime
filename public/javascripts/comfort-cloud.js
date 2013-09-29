@@ -152,7 +152,7 @@ var ComfortCloud = (function() {
 			return bubble.getBoundingBox();
 		});
 		for(var i = 0; i < 50; i++) {
-			var x = (0.6 * Math.random() - 0.05) * $(window).width();
+			var x = (0.8 * Math.random() - 0.02) * $(window).width();
 			var y = 0.75 * Math.random() * $(window).height();
 			var collisionAmt = amtCollidinggArr({
 				x: x - 10,
